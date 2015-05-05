@@ -32,47 +32,30 @@ public abstract class ValidationUtil implements Serializable {
 	 */
 
 	public static <T> void validate(T param) throws ValidationException {
-		validate(param, param.getClass().getSimpleName(), new Class<?>[] {}, null, new String[] {});
+		validate(param, param.getClass().getSimpleName(), new Class<?>[] {}, null);
 	}
 
 	public static <T> void validate(T param, String paramName) throws ValidationException {
-		validate(param, paramName, new Class<?>[] {}, null, new String[] {});
+		validate(param, paramName, new Class<?>[] {}, null);
 	}
 
 	public static <T> void validate(T param, Class<?>[] groups) throws ValidationException {
-		validate(param, param.getClass().getSimpleName(), groups, null, new String[] {});
-	}
-
-	public static <T> void validate(T param, String[] bundleNames) throws ValidationException {
-		validate(param, param.getClass().getSimpleName(), new Class<?>[] {}, null, bundleNames);
+		validate(param, param.getClass().getSimpleName(), groups, null);
 	}
 
 	public static <T> void validate(T param, String paramName, Class<?>[] groups) throws ValidationException {
-		validate(param, paramName, groups, null, new String[] {});
+		validate(param, paramName, groups, null);
 	}
 
 	public static <T> void validate(T param, String paramName, String validationErrorCode) throws ValidationException {
-		validate(param, paramName, new Class<?>[] {}, validationErrorCode, new String[] {});
+		validate(param, paramName, new Class<?>[] {}, validationErrorCode);
 	}
 
-	public static <T> void validate(T param, String paramName, String[] bundleNames) throws ValidationException {
-		validate(param, paramName, new Class<?>[] {}, null, bundleNames);
-	}
-
-	public static <T> void validate(T param, String paramName, Class<?>[] groups, String[] bundleNames) throws ValidationException {
-		validate(param, paramName, groups, null, bundleNames);
-	}
-
-	public static <T> void validate(T param, String paramName, String validationErrorCode, String[] bundleNames) throws ValidationException {
-		validate(param, paramName, new Class<?>[] {}, validationErrorCode, bundleNames);
-	}
-
-	public static <T> void validate(T param, String paramName, Class<?>[] groups, String validationErrorCode, String[] bundleNames)
-			throws ValidationException {
+	public static <T> void validate(T param, String paramName, Class<?>[] groups, String validationErrorCode) throws ValidationException {
 		if (param == null)
 			return;
 
-		Set<ConstraintViolation<T>> constraintViolations = getValidator(bundleNames).validate(param, groups);
+		Set<ConstraintViolation<T>> constraintViolations = getValidator().validate(param, groups);
 		if (!constraintViolations.isEmpty()) {
 
 			ValidationException ve = new ValidationException();
@@ -93,43 +76,22 @@ public abstract class ValidationUtil implements Serializable {
 	 */
 
 	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues) throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, new Class<?>[] {}, null, new String[] {});
+		validateMethod(object, method, parameterNames, parameterValues, new Class<?>[] {}, null);
 	}
 
 	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, String validationErrorCode)
 			throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, new Class<?>[] {}, validationErrorCode, new String[] {});
+		validateMethod(object, method, parameterNames, parameterValues, new Class<?>[] {}, validationErrorCode);
 	}
 
 	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, Class<?>[] groups)
 			throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, groups, null, new String[] {});
-	}
-
-	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, String[] bundleNames)
-			throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, new Class<?>[] {}, null, bundleNames);
+		validateMethod(object, method, parameterNames, parameterValues, groups, null);
 	}
 
 	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, Class<?>[] groups,
 			String validationErrorCode) throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, groups, validationErrorCode, new String[] {});
-	}
-
-	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, Class<?>[] groups,
-			String[] bundleNames)
-			throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, groups, null, bundleNames);
-	}
-
-	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, String validationErrorCode,
-			String[] bundlesName) throws ValidationException {
-		validateMethod(object, method, parameterNames, parameterValues, new Class<?>[] {}, validationErrorCode, bundlesName);
-	}
-
-	public static <T> void validateMethod(T object, Method method, String[] parameterNames, Object[] parameterValues, Class<?>[] groups,
-			String validationErrorCode, String[] bundlesName) throws ValidationException {
-		MethodValidator mv = getValidator(bundlesName).unwrap(MethodValidator.class);
+		MethodValidator mv = getValidator().unwrap(MethodValidator.class);
 
 		Set<MethodConstraintViolation<T>> constraintViolations = mv.validateAllParameters(object, method, parameterValues, groups);
 
@@ -151,24 +113,7 @@ public abstract class ValidationUtil implements Serializable {
 	 * Protected Methods
 	 */
 
-	@SuppressWarnings("deprecation")
-	protected static Validator getValidator(String[] bundleName) {
-
-		/*
-		 * List<String> resourceBundles = new
-		 * ArrayList<String>(Arrays.asList(bundleName));
-		 * resourceBundles.add(Constants.SURITTEC_CORE_BUNDLE_BASENAME);
-		 * 
-		 * HibernateValidatorConfiguration configuration =
-		 * Validation.byProvider(HibernateValidator.class).configure();
-		 * configuration.messageInterpolator( new
-		 * ResourceBundleMessageInterpolator( new
-		 * AggregateResourceBundleLocator( resourceBundles,
-		 * configuration.getDefaultResourceBundleLocator() ) ) );
-		 * 
-		 * return configuration.buildValidatorFactory().getValidator();
-		 */
-
+	protected static Validator getValidator() {
 		return Validation.buildDefaultValidatorFactory().getValidator();
 	}
 
