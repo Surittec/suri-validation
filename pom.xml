@@ -62,7 +62,7 @@
 	</dependencies>
 	
 	<properties>
- 		<eap-bom.version>6.3.1</eap-bom.version>
+ 		<eap-bom.version>6.3.2</eap-bom.version>
  		
  		<suri-util.version>1.0.3</suri-util.version>
 	</properties>
