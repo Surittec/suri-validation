@@ -1,6 +1,6 @@
 /*
  * SURITTEC
- * Copyright 2014, SURITTEC CONSULTORIA LTDA, 
+ * Copyright 2014, TTUS TECNOLOGIA DA INFORMACAO LTDA, 
  * and individual contributors as indicated by the @authors tag
  *
  * This is free software; you can redistribute it and/or modify it
