@@ -25,16 +25,16 @@ import javax.validation.ConstraintValidatorContext;
 
 import br.com.surittec.surivalidation.constraints.Normalized;
 
-public class NormalizedValidator  implements ConstraintValidator<Normalized, String> {
+public class NormalizedValidator implements ConstraintValidator<Normalized, String> {
 
-	private static final String PATTERN_FORMAT = "^[0-9a-zA-Z][0-9a-zA-Z-]{0,%d}[0-9a-zA-Z]$";
+	private static final String PATTERN_FORMAT = "^[0-9a-zA-Z][0-9a-zA-Z%s]{0,%d}[0-9a-zA-Z]$";
 	
 	private String pattern;
 	
 	@Override
 	public void initialize(Normalized constraintAnnotation) {
 		if(constraintAnnotation.length() < 2) throw new IllegalArgumentException("Lenght must be greater than 2");
-		pattern = String.format(PATTERN_FORMAT, constraintAnnotation.length() - 2);
+		pattern = String.format(PATTERN_FORMAT, constraintAnnotation.specialCharsRegexParam(), constraintAnnotation.length() - 2);
 	}
 
 	@Override

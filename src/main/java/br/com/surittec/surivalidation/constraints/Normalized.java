@@ -45,4 +45,8 @@ public @interface Normalized {
 
 	int length();
 	
+	String specialCharsRegexParam() default "-_\\.";
+	
+	String specialCharsMessageParam() default "'-' , '_' , '.'";
+	
 }
